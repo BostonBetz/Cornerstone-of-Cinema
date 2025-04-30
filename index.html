@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cornerstone of Cinema</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --black: #1d1d1d;
+            --white: white;
+            --highlight: #048abf;
+            --accent: #a82d62;
+            --bg: #0a0a23;
+        }
+        
+        body {
+            font-family: 'Noto Serif', serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--white);
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, .btn {
+            font-family: 'Bungee', sans-serif;
+            text-transform: uppercase;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--accent), var(--black));
+            padding: 3rem 2rem;
+            text-align: center;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+            margin-bottom: 3rem;
+        }
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .films-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 0 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .film-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .film-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border-color: var(--highlight);
+        }
+        
+        .film-poster {
+            width: 100%;
+            height: 500px;
+            object-fit: contain;
+            border-bottom: 3px solid var(--accent);
+            background-color: var(--black);
+        }
+        
+        .film-info {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .film-title {
+            color: var(--highlight);
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+        
+        .btn-support {
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Bungee', sans-serif;
+            width: 100%;
+            margin-top: auto;
+            transition: all 0.3s;
+        }
+        
+        .btn-support:hover {
+            background: var(--highlight);
+            transform: scale(1.02);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: var(--bg);
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            border: 2px solid var(--highlight);
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--white);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--highlight);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+        }
+        
+        .btn-submit {
+            background: var(--highlight);
+            color: var(--white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Bungee', sans-serif;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .btn-submit:hover {
+            background: var(--accent);
+        }
+        
+        .modal-description {
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+            background: var(--black);
+            clip-path: polygon(0 10%, 100% 0, 100% 100%, 0% 100%);
+        }
+        
+        @media (max-width: 768px) {
+            .films-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .film-poster {
+                height: 400px;
+            }
+            
+            header {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>Cornerstone of Cinema</h1>
+            <p>A showcase of groundbreaking films that redefine storytelling</p>
+        </div>
+    </header>
+    
+    <main>
+        <div class="films-container" id="films-container">
+            <!-- Film cards will be added here by JavaScript -->
+        </div>
+    </main>
+    
+    <!-- Support Modal -->
+    <div class="modal" id="supportModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-film-title">I Loved <span id="film-title-span"></span>!</h2>
+            <p class="modal-description">
+                Your support means everything to independent filmmakers! By sharing your email and a few words of praise, 
+                you're helping them demonstrate audience engagement to festivals, distributors, and funding organizations. 
+                This simple act can make a huge difference in their career.
+            </p>
+            <form id="supportForm" onsubmit="submitForm(event)">
+                <input type="hidden" name="_subject" value="New Film Support Submission">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_replyto" id="replyToEmail">
+                <input type="hidden" id="selected-film" name="film">
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" name="email" required placeholder="Your email will only be used to share updates about this film">
+                </div>
+                <div class="form-group">
+                    <label for="message">What did you love about this film? (optional)</label>
+                    <textarea id="message" name="message" placeholder="Your kind words could help this filmmaker get their next project funded!"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Send Your Support</button>
+            </form>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Presented by Blurless Entertainment</p>
+        <p>&copy; 2025 All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Film data
+        const films = [
+            {
+                id: 1,
+                title: "Joke Thief",
+                poster: "https://i.ibb.co/LDKmCNhR/Joke-Thief-Poster.jpg",
+                logline: "Concept trailer featuring a comedian down on his luck, decides to steal a great comedian's joke book."
+            },
+            {
+                id: 2,
+                title: "Faye and Bo",
+                poster: "https://i.ibb.co/dJ687Ct2/Faye-and-Bo-Poster.png",
+                logline: "A Cyberpunk Western set in 2076, two bounty-hunting cowboys find their way to make a living, one bounty at a time."
+            },
+            {
+                id: 3,
+                title: "Gallahue",
+                poster: "https://i.ibb.co/r2fpV1Sd/Gallahue-Poster.jpg",
+                logline: "Concept trailer of a documentary highlighting the experiences and relationships formed by the staff of a southern Indiana summer camp."
+            },
+            {
+                id: 4,
+                title: "Riverton",
+                poster: "https://i.ibb.co/wZNzS2Yj/Riverton-Poster.jpg",
+                logline: "After two best friends kill a man, they must find a way to get rid of the body."
+            },
+            {
+                id: 5,
+                title: "Hypnic Jerk",
+                poster: "https://i.ibb.co/n84s9mDQ/Hypnic-Jerk-Poster.jpg",
+                logline: "A young man troubled with sleep issues is prescribed an experimental medication, which leads to some unforeseen, larger-than-life effects."
+            },
+            {
+                id: 6,
+                title: "Missing Keys",
+                poster: "https://via.placeholder.com/300x400.png?text=Missing+Keys",
+                logline: "A former piano prodigy tries to figure out her future outside of the piano, while making an unexpected friend along the way."
+            },
+            {
+                id: 7,
+                title: "Robbery or Revenge",
+                poster: "https://i.ibb.co/nsNqYzq9/Robbery-or-Revenge-Poster.png",
+                logline: "The investigation of the murder of Muncie local, Garth Rector."
+            },
+            {
+                id: 8,
+                title: "Known",
+                poster: "https://i.ibb.co/0pQPZGV5/Known-Poster.png",
+                logline: "Two long-term friends seek understanding of each other on their childhood playground."
+            },
+            {
+                id: 9,
+                title: "Kyle and Gavin Go Fishing",
+                poster: "https://i.ibb.co/b57DZ2f5/Kyle-and-Gavin-Go-Fishing-poster.jpg",
+                logline: "Kyle and Gavin Go Fishing"
+            },
+            {
+                id: 10,
+                title: "Final Girl",
+                poster: "https://i.ibb.co/TBQdr91r/Final-Girl-Poster.png",
+                logline: "A strange young woman is approached by her stalker, offering to assist her with hunting down men on their college campus."
+            },
+            {
+                id: 11,
+                title: "Nightmare on McKinley",
+                poster: "https://i.ibb.co/prXtMBsM/Nightmare-on-Mc-Kinley-Poster.jpg",
+                logline: "A terrifying night unfolds for residents of McKinley dormitory."
+            }
+        ];
+
+        // DOM elements
+        const filmsContainer = document.getElementById('films-container');
+        const modal = document.getElementById('supportModal');
+        const closeModal = document.querySelector('.close-modal');
+        const modalTitle = document.getElementById('modal-film-title');
+        const filmTitleSpan = document.getElementById('film-title-span');
+        const selectedFilmInput = document.getElementById('selected-film');
+        const supportForm = document.getElementById('supportForm');
+        const emailInput = document.getElementById('email');
+        const replyToEmail = document.getElementById('replyToEmail');
+
+        // Form submission handler
+        async function submitForm(e) {
+            e.preventDefault();
+            
+            // Set reply-to address
+            replyToEmail.value = emailInput.value;
+            
+            try {
+                const response = await fetch('https://formsubmit.co/ajax/blurlessmediagroup@gmail.com', {
+                    method: 'POST',
+                    body: new FormData(supportForm)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(`Thank you for supporting "${films.find(f => f.id == selectedFilmInput.value).title}"! Your feedback means a lot.`);
+                    closeSupportModal();
+                    supportForm.reset();
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                alert('Oops! Something went wrong. Please try again.');
+                console.error('Form submission error:', error);
+            }
+        }
+
+        // Render film cards
+        function renderFilms() {
+            filmsContainer.innerHTML = '';
+            
+            films.forEach(film => {
+                const filmCard = document.createElement('div');
+                filmCard.className = 'film-card';
+                filmCard.innerHTML = `
+                    <img src="${film.poster}" alt="${film.title}" class="film-poster">
+                    <div class="film-info">
+                        <h3 class="film-title">${film.title}</h3>
+                        <p>${film.logline}</p>
+                        <button class="btn-support" data-film-id="${film.id}" data-film-title="${film.title}">
+                            I Loved This Film
+                        </button>
+                    </div>
+                `;
+                filmsContainer.appendChild(filmCard);
+            });
+            
+            // Add event listeners to support buttons
+            document.querySelectorAll('.btn-support').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const filmId = e.target.getAttribute('data-film-id');
+                    const filmTitle = e.target.getAttribute('data-film-title');
+                    openSupportModal(filmId, filmTitle);
+                });
+            });
+        }
+
+        // Modal functions
+        function openSupportModal(filmId, filmTitle) {
+            selectedFilmInput.value = filmId;
+            modalTitle.textContent = `I Loved ${filmTitle}!`;
+            filmTitleSpan.textContent = filmTitle;
+            modal.style.display = 'flex';
+        }
+
+        function closeSupportModal() {
+            modal.style.display = 'none';
+        }
+
+        // Event listeners
+        closeModal.addEventListener('click', closeSupportModal);
+        
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeSupportModal();
+            }
+        });
+
+        // Initialize the page
+        renderFilms();
+    </script>
+</body>
+</html>
